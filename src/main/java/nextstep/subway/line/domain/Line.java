@@ -1,5 +1,6 @@
 package nextstep.subway.line.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import nextstep.subway.common.BaseEntity;
 import nextstep.subway.station.domain.Station;
 
@@ -19,6 +20,7 @@ public class Line extends BaseEntity implements Serializable {
     private String name;
     private String color;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "line", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
 
@@ -72,6 +74,7 @@ public class Line extends BaseEntity implements Serializable {
         upLineStation.ifPresent(it -> sections.remove(it));
         downLineStation.ifPresent(it -> sections.remove(it));
     }
+
 
     public List<Station> getStations() {
         if (sections.isEmpty()) {

@@ -9,6 +9,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -38,7 +39,8 @@ public class LogAspectHolder {
     @Component
     static public class LoggingAspect {
 
-        @Around("execution(public * nextstep..*(..))")
+        @Around("execution(public * nextstep..*(..)) || execution(* *..*Repository.*(..))")
+
         public Object logContext(ProceedingJoinPoint joinPoint) throws Throwable {
             Map commonArguments = commonArguments();
 
@@ -53,7 +55,7 @@ public class LogAspectHolder {
             Map outputArguments = outputArguments(result, methodExecTime);
 
             if (isController(joinPoint) && methodExecTime > 3000) {
-                log.warn("End {} Too Long Time", signature, outputArguments);
+                log.warn("End {} Too Long Time", signature, entries(commonArguments), entries(outputArguments));
                 return result;
             }
 
@@ -83,8 +85,8 @@ public class LogAspectHolder {
 
         private Map outputArguments(Object output, long time) {
             Map map = new HashMap();
-            map.put("Output", output);
             map.put("Time", time + "ms");
+            map.put("Output", output);
             return map;
         }
     }
