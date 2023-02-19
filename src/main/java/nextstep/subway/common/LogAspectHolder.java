@@ -5,6 +5,8 @@ import static net.logstash.logback.argument.StructuredArguments.entries;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.logstash.logback.argument.StructuredArgument;
+import net.logstash.logback.argument.StructuredArguments;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -40,7 +42,6 @@ public class LogAspectHolder {
     static public class LoggingAspect {
 
         @Around("execution(public * nextstep..*(..)) || execution(* *..*Repository.*(..))")
-
         public Object logContext(ProceedingJoinPoint joinPoint) throws Throwable {
             Map commonArguments = commonArguments();
 
@@ -52,14 +53,19 @@ public class LogAspectHolder {
             long endTime = System.currentTimeMillis();
             long methodExecTime = endTime - startTime;
 
-            Map outputArguments = outputArguments(result, methodExecTime);
+            Map outputArguments = outputArguments(result);
+
 
             if (isController(joinPoint) && methodExecTime > 3000) {
-                log.warn("End {} Too Long Time", signature, entries(commonArguments), entries(outputArguments));
+                log.warn("End {} Too Long Time", signature, entries(commonArguments),
+                        StructuredArguments.kv("Time", methodExecTime),
+                        entries(outputArguments));
                 return result;
             }
 
-            log.info("End {}", signature, entries(commonArguments), entries(outputArguments));
+            log.info("End {}", signature, entries(commonArguments),
+                    StructuredArguments.kv("Time", methodExecTime),
+                    entries(outputArguments));
 
             return result;
         }
@@ -83,9 +89,8 @@ public class LogAspectHolder {
             return joinPoint.getTarget().getClass().getSimpleName().endsWith("Controller");
         }
 
-        private Map outputArguments(Object output, long time) {
+        private Map outputArguments(Object output) {
             Map map = new HashMap();
-            map.put("Time", time + "ms");
             map.put("Output", output);
             return map;
         }
