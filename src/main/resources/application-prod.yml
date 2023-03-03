@@ -6,6 +6,16 @@ spring:
     password: masterpw
 
 management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
@@ -14,10 +24,16 @@ management:
     export:
       cloudwatch:
         batch-size: '20'
-        namespace: 'sgo8308  '
+        namespace: 'sgo8308'
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
 cloud:
   aws:
     region:
       static: ap-northeast-2
     stack:
-      auto: 'false '
+      auto: 'false'
