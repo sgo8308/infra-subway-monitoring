@@ -5,13 +5,11 @@ import static net.logstash.logback.argument.StructuredArguments.entries;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import net.logstash.logback.argument.StructuredArgument;
 import net.logstash.logback.argument.StructuredArguments;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -20,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 public class LogAspectHolder {
 
-    private static final Logger log = LoggerFactory.getLogger("file");
+    private static final Logger log = LoggerFactory.getLogger("file-async");
 
     @Aspect
     @Order(1)

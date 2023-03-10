@@ -1,5 +1,5 @@
 <included>
-  <property name="home" value="log/" />
+  <property name="home" value="log/"/>
 
   <!--  appender이름이 file인 consoleAppender를 선언  -->
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -35,5 +35,13 @@
       </jsonGeneratorDecorator>
     </encoder>
 
+  </appender>
+
+  <appender name="file_async" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="file"/>
+    <queueSize>512</queueSize> <!--로그들이 저장될 큐 사이즈-->
+    <discardingThreshold>10</discardingThreshold> <!-- 큐 용량이 10% 남으면 ERROR WARN 이외 모두 삭제-->
+    <neverBlock>false</neverBlock> <!--큐가 꽉찰 경우 false면 로깅 쓰레드는 Block되고 true면 Block되지 않고 로그를 버린다.-->
+    <maxFlushTime>0</maxFlushTime> <!--애플리케이션 종료시 큐에 남은 로그 가 로깅되기를 기다릴 시간, 0이면 모든 로그 기다림-->
   </appender>
 </included>
