@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 public class LogAspectHolder {
 
-    private static final Logger log = LoggerFactory.getLogger("file-async");
+    private static final Logger log = LoggerFactory.getLogger("file_async");
 
     @Aspect
     @Order(1)
