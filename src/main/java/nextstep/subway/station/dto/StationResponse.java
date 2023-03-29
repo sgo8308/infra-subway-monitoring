@@ -1,8 +1,9 @@
 package nextstep.subway.station.dto;
 
+import java.io.Serializable;
 import nextstep.subway.station.domain.Station;
 
-public class StationResponse {
+public class StationResponse implements Serializable {
     private Long id;
     private String name;
 
