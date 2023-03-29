@@ -26,7 +26,7 @@ public class PathService {
         return convertSubwayPath(path);
     }
 
-    private SubwayPath convertSubwayPath(GraphPath graphPath) {
+    public SubwayPath convertSubwayPath(GraphPath graphPath) {
         List<SectionEdge> edges = (List<SectionEdge>) graphPath.getEdgeList().stream().collect(Collectors.toList());
         List<Station> stations = graphPath.getVertexList();
         return new SubwayPath(edges, stations);
