@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class CacheConfig {
 
-    private long refreshTime = 7200L;
+    private long refreshTime = 1L;
 
     @Bean
     public CacheManager centralCache() {
@@ -31,13 +31,13 @@ public class CacheConfig {
         caches.add(new CaffeineCache("lines",
                 Caffeine.newBuilder()
                         .recordStats()
-                        .expireAfterWrite(refreshTime, TimeUnit.SECONDS)
+                        .expireAfterWrite(refreshTime, TimeUnit.HOURS)
                         .build()));
 
         caches.add(new CaffeineCache("path",
                 Caffeine.newBuilder()
                         .recordStats()
-                        .expireAfterWrite(refreshTime, TimeUnit.SECONDS)
+                        .expireAfterWrite(refreshTime, TimeUnit.HOURS)
                         .build()));
         return caches;
     }
