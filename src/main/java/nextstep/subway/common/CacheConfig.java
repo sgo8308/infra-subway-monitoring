@@ -33,12 +33,11 @@ public class CacheConfig {
                         .expireAfterWrite(refreshTime, TimeUnit.SECONDS)
                         .build()));
 
-        caches.add(new CaffeineCache("station",
+        caches.add(new CaffeineCache("path",
                 Caffeine.newBuilder()
                         .recordStats()
                         .expireAfterWrite(refreshTime, TimeUnit.SECONDS)
                         .build()));
         return caches;
     }
-
 }
