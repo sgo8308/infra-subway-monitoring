@@ -1,0 +1,38 @@
+hazelcast: # hazelcast-full-example.yaml에서 모든 설정에 대한 설명 찾을 수 있음
+  cluster-name: path # 클러스터 이름
+  network:
+    port:
+      auto-increment: true # port에 설정된 값(5701)부터 1씩 증가하며 가능한 포트 찾음
+      port-count: 100 # 총 100개까지 찾음 (5701~5801) 위 옵션이 false일 경우 이 옵션은 무시됨
+      port: 5701 # 클러스터 간 통신에 쓰이는 포트 번호 (inbound)
+    outbound-ports: # 클러스터 간 통신에 쓰이는 포트 번호 (Ountbound)
+      - 0 # 0은 시스템이 제공하는 포트를 그대로 사용
+    join: # 동일한 클러스터에 있는 멤버를 찾는 방식에 대한 설정
+      multicast:
+        enabled: false
+      tcp-ip:
+        enabled: true
+        interface: 127.0.0.1
+        member-list: # 클러스터 핵심 멤버에 대한 IP, 새로운 노드는 클러스터 멤버 중 최소 하나와 연결되면 된다.
+          - 127.0.0.1
+  cache:
+    path: # 캐시 이름
+      eviction: # 캐시 삭제 정책에 대한 설정
+        size: 500000
+        max-size-policy: ENTRY_COUNT # 50만개의 캐시 이후부터는 삭제 정책에 따라 삭제
+        eviction-policy: LRU
+      expiry-policy-factory: # 언제 캐시가 만료될 것인지
+        timed-expiry-policy-factory:
+          expiry-policy-type: CREATED # 캐시가 생성된 후
+          time-unit: HOURS #
+          duration-amount: 12 # 12시간이 지나면 만료
+
+    lines:
+      eviction:
+        size: 10
+        max-size-policy: ENTRY_COUNT
+      expiry-policy-factory:
+        timed-expiry-policy-factory:
+          expiry-policy-type: CREATED
+          time-unit: SECONDS
+          duration-amount: 10

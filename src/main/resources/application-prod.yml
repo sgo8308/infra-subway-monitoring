@@ -1,4 +1,14 @@
 spring:
+  cache:
+    type: jcache # jcache는 java에서 제공하는 cache 추상화이고 hazelcast는 이 cache 추상화의 구현체를 제공
+    jcache:
+      provider: com.hazelcast.cache.HazelcastMemberCachingProvider
+      # Cache를 관리하는 CacheManager를 관리하는 CachingProvider설정
+      # 로컬 캐시일 경우 - HazelcastMemberCachingProvider
+      # 리모트 캐시일 경우 - HazelcastClientCachingProvider
+  hazelcast:
+    config: "classpath:cacheconfig/hazelcast.yaml"
+
   datasource:
     url: jdbc:mysql://192.168.100.134:3306/subway
     driver-class-name: com.mysql.cj.jdbc.Driver
