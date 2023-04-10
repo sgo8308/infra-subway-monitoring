@@ -22,7 +22,7 @@ public class LogAspectHolder {
 
     @Aspect
     @Order(1)
-    @Component
+//    @Component
     static public class ContextAspect {
 
         @Around("execution(* nextstep..*Controller.*(..))")
@@ -36,7 +36,7 @@ public class LogAspectHolder {
 
     @Aspect
     @Order(2)
-    @Component
+//    @Component
     static public class LoggingAspect {
 
         @Around("execution(public * nextstep..*(..)) || execution(* *..*Repository.*(..))")

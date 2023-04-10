@@ -1,10 +1,11 @@
 package nextstep.subway.map.dto;
 
+import java.io.Serializable;
 import nextstep.subway.station.dto.StationResponse;
 
 import java.util.List;
 
-public class PathResponse {
+public class PathResponse implements Serializable {
     private List<StationResponse> stations;
     private int distance;
 
